@@ -7,6 +7,7 @@ const cTable = require("console.table");
 const db = require("./db");
 const connection = require("./db/connection");
 
+//Logo specifics
 console.log(
     logo({
         name: 'Employee Database',
@@ -24,3 +25,49 @@ console.log(
         .center('Create, track and update departments, roles and employees!')
         .render()
 );
+
+//First action asked to user
+function askForAction() {
+    inquirer.prompt({
+        message: "Choose something to do",
+        name: "action",
+        type: "list",
+        choices: [
+            "VIEW_DEPARTMENTS",
+            "VIEW_ROLES",
+            "VIEW_EMPLOYEES",
+            "CREATE_DEPARTMENT",
+            "CREATE_ROLE",
+            "CREATE_EMPLOYEE",
+            "UPDATE_EMPLOYEE_ROLE",
+            "QUIT"
+        ]
+    }).then((res) => {
+        switch (res.action) {
+            case "VIEW_DEPARTMENTS": viewDepartments();
+            return;
+
+            case "VIEW_ROLES": viewRoles();
+            return;
+
+            case "VIEW_EMPLOYEES": viewEmployees();
+            return;
+
+            case "CREATE_DEPARTMENT": createDepartment();
+            return;
+
+            case "CREATE_ROLE": createRole();
+            return;
+
+            case "CREATE_EMPLOYEE": createEmployee();
+            return;
+
+            case "UPDATE_EMPLOYEE_ROLE": updateEmployeeRole();
+            return;
+
+            default:
+                connection.end();
+
+        }
+    })
+}
