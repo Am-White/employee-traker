@@ -56,7 +56,7 @@ function askForAction() {
             case "CREATE_DEPARTMENT": createDepartment();
             return;
 
-            case "CREATE_ROLE": createRole();
+            case "CREATE_ROLES": createRoles();
             return;
 
             case "CREATE_EMPLOYEE": createEmployee();
@@ -71,3 +71,38 @@ function askForAction() {
         }
     })
 }
+
+//Functions for each case in order
+function viewDepartments() {
+
+}
+
+function viewRoles() {
+
+}
+
+function viewEmployees() {
+
+}
+
+function createDepartment() {
+
+}
+
+function createRoles() {
+
+}
+
+function createEmployee() {
+
+}
+
+function updateEmployeeRole() {
+
+}
+
+askForAction();
+
+db.getDepartments().then((results) => {
+    console.log(results);
+});
