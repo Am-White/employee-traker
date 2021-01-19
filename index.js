@@ -75,9 +75,21 @@ function askForAction() {
 //Functions for each case in order
 function viewDepartments() {
 
+    db.getDepartments().then((results) => {
+        let departmentsTable = cTable.getTable(results);
+        console.log.table(departmentsTable);
+        askForAction();
+    });
+
 }
 
 function viewRoles() {
+
+    db.getRoles().then((results) => {
+        let departmentsTable = cTable.getTable(results);
+        console.table(departmentsTable);
+        askForAction();
+    });
 
 }
 
