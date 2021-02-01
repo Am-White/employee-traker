@@ -159,7 +159,51 @@ function createRoles() {
 }
 
 function createEmployee() {
+    db.getRoles().then((roles) => {
+        console.log(roles);
 
+        const roleList = roles.map((role) => ({
+            value: role.id,
+            name:role.title
+        }));
+        db.getEmployees().then((employees) => {
+            console.log(employees);
+
+            const employeeList = employees.map((employee) => ({
+                value: employee.id,
+                name: `${employee.first_name} ${employee.last_name}`
+            }))
+            inquirer.prompt([
+                {
+                    message: "What is the employee's first name?",
+                    type: "input",
+                    name: "first_name",
+                },
+                {
+                    message: "What is the employee's last name?",
+                    type: "input",
+                    name: "first_name",
+                },
+                {
+                    message: "What is the role for this employee?",
+                    type: "list",
+                    name: "role_id",
+                    choices: roleList
+                },
+                {
+                    message: "Who will be this employees manager?",
+                    type: "list",
+                    name: "manager_id",
+                    choices: employeeList
+                }
+            ]).then(newEmployee => {
+                db.insertEmployee(newEmployee).then((res) => {
+                    console.log("New employee added!")
+                    askForAction();
+                })
+            })
+        })
+    })
 }
 
 function updateEmployeeRole() {
