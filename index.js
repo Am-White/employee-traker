@@ -44,25 +44,32 @@ function askForAction() {
         ]
     }).then((res) => {
         switch (res.action) {
-            case "VIEW_DEPARTMENTS": viewDepartments();
+            case "VIEW_DEPARTMENTS": 
+            viewDepartments();
             return;
 
-            case "VIEW_ROLES": viewRoles();
+            case "VIEW_ROLES": 
+            viewRoles();
             return;
 
-            case "VIEW_EMPLOYEES": viewEmployees();
+            case "VIEW_EMPLOYEES": 
+            viewEmployees();
             return;
 
-            case "CREATE_DEPARTMENT": createDepartment();
+            case "CREATE_DEPARTMENT": 
+            createDepartment();
             return;
 
-            case "CREATE_ROLES": createRoles();
+            case "CREATE_ROLES": 
+            createRoles();
             return;
 
-            case "CREATE_EMPLOYEE": createEmployee();
+            case "CREATE_EMPLOYEE": 
+            createEmployee();
             return;
 
-            case "UPDATE_EMPLOYEE_ROLE": updateEmployeeRole();
+            case "UPDATE_EMPLOYEE_ROLE": 
+            updateEmployeeRole();
             return;
 
             default:
@@ -94,6 +101,12 @@ function viewRoles() {
 }
 
 function viewEmployees() {
+
+    db.getEmployees().then((results) => {
+        let employeesTable = cTable.getTable(results);
+        console.table(employeesTable);
+        askForAction();
+    });
 
 }
 
