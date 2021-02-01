@@ -87,7 +87,6 @@ function viewDepartments() {
         console.log.table(departmentsTable);
         askForAction();
     });
-
 }
 
 function viewRoles() {
@@ -97,7 +96,6 @@ function viewRoles() {
         console.table(departmentsTable);
         askForAction();
     });
-
 }
 
 function viewEmployees() {
@@ -107,14 +105,56 @@ function viewEmployees() {
         console.table(employeesTable);
         askForAction();
     });
-
 }
 
 function createDepartment() {
-
+    inquirer.prompt([
+        {
+            message: "What department would you like to create?",
+            type: "input",
+            name: "name",
+        }
+    ]).then(newDepartment => {
+        db.insertDepartments(newDepartment).then((res) => {
+            console.log("New department added!")
+            askForAction();
+        })
+    })
 }
 
 function createRoles() {
+    db.getDepartments().then((departments) => {
+        console.log(departments);
+
+        const departChoices = departments.map((department) => ({
+            value: department.id,
+            name: department.name
+        }))
+
+        inquirer.prompt([
+            {
+                message: "What department is this role for?",
+                type: "list",
+                name: "department_id",
+                choices: departmentChoices
+            },
+            {
+                message: "What is the title of this role?",
+                type: "input",
+                name: "title",
+            },
+            {
+                message: "What is the salary for this role?",
+                type: "input",
+                name: "salary",
+            }
+        ]).then(newRole => {
+            db.insertRoles(newRole).then((res) => {
+                console.log("New role added!")
+                askForAction();
+            })
+        })
+    })
 
 }
 
