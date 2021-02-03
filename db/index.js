@@ -19,13 +19,16 @@ module.exports = {
     insertRoles(data) {
         return connection.query("INSERT INTO roles SET ?", data);
     },
-    insertEmployees(data) {
-        return connection.query("INSERT INTO employees SET ? WHERE ?",
+    insertEmployee(data) {
+        return connection.query("INSERT INTO employees SET?", data);
+    },
+    updateEmployee(data) {
+        return connection.query("UPDATE employees SET ? WHERE ?",
         [{
             id: data.employeeId
         },
         {
-            role_id: data.roleId
+            role_id: data.role_Id
         }]);
     }
 }

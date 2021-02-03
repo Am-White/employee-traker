@@ -2,7 +2,7 @@ const { resourceLimits } = require("worker_threads");
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const logo = require("asciiart-logo");
-const cTable = require("console.table");
+const table = require("console.table");
 
 const db = require("./db");
 const connection = require("./db/connection");
@@ -57,19 +57,19 @@ function askForAction() {
             return;
 
             case "CREATE_DEPARTMENT": 
-            createDepartment();
+            createDepartments();
             return;
 
-            case "CREATE_ROLES": 
+            case "CREATE_ROLE": 
             createRoles();
             return;
 
             case "CREATE_EMPLOYEE": 
-            createEmployee();
+            createEmployees();
             return;
 
             case "UPDATE_EMPLOYEE_ROLE": 
-            updateEmployeeRole();
+            updateEmployeeRoles();
             return;
 
             default:
@@ -83,8 +83,8 @@ function askForAction() {
 function viewDepartments() {
 
     db.getDepartments().then((results) => {
-        let departmentsTable = cTable.getTable(results);
-        console.log.table(departmentsTable);
+        let departmentsTable = table.getTable(results);
+        console.table(departmentsTable);
         askForAction();
     });
 }
@@ -92,8 +92,8 @@ function viewDepartments() {
 function viewRoles() {
 
     db.getRoles().then((results) => {
-        let departmentsTable = cTable.getTable(results);
-        console.table(departmentsTable);
+        let rolesTable = table.getTable(results);
+        console.table(rolesTable);
         askForAction();
     });
 }
@@ -101,13 +101,13 @@ function viewRoles() {
 function viewEmployees() {
 
     db.getEmployees().then((results) => {
-        let employeesTable = cTable.getTable(results);
+        let employeesTable = table.getTable(results);
         console.table(employeesTable);
         askForAction();
     });
 }
 
-function createDepartment() {
+function createDepartments() {
     inquirer.prompt([
         {
             message: "What department would you like to create?",
@@ -126,7 +126,7 @@ function createRoles() {
     db.getDepartments().then((departments) => {
         console.log(departments);
 
-        const departChoices = departments.map((department) => ({
+        const departmentChoices = departments.map((department) => ({
             value: department.id,
             name: department.name
         }))
@@ -158,7 +158,7 @@ function createRoles() {
 
 }
 
-function createEmployee() {
+function createEmployees() {
     db.getRoles().then((roles) => {
         console.log(roles);
 
@@ -182,7 +182,7 @@ function createEmployee() {
                 {
                     message: "What is the employee's last name?",
                     type: "input",
-                    name: "first_name",
+                    name: "last_name",
                 },
                 {
                     message: "What is the role for this employee?",
@@ -206,7 +206,7 @@ function createEmployee() {
     })
 }
 
-function updateEmployeeRole() {
+function updateEmployeeRoles() {
     db.getEmployees().then((employees) => {
         console.log(employees);
 
@@ -234,7 +234,7 @@ function updateEmployeeRole() {
                 name: "roleId",
                 choices: roleList
             }
-        ]).then(updateEmployeeRole => {
+        ]).then(updatedEmployee => {
             db.updateEmployee(updatedEmployee).then((res) => {
                 console.log("Employee info updated!")
                 askForAction();
